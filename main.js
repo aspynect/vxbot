@@ -26,7 +26,6 @@ async function messageReprocess(message) {
     }
     await message.edit(fixedContent);
     message.react('🔀');
-    console.log(messageMap)
 }
 
 //false: no embed, video embed
@@ -67,7 +66,7 @@ client.on('messageUpdate', async (oldMessage, newMessage) => {
     if (messageMap.has(messageID)) {
         console.log('Important message update');
         if (!embedCheck(newMessage)) {
-            clearTimeout(messageMap.get(messageID));
+            clearTimeout(messageMap.get(newMessage.id));
             processMessage(newMessage);
         } //if its good its good
     }
