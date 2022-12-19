@@ -44,9 +44,16 @@ client.on('ready', async () => {
 });
 
 client.on('messageCreate', async message => {
+    let messageContent = message.cleanContent
+
     if (message.author == client.user) {return}
-    console.log(`Message received: m${message.cleanContent}`)
-    if (message.cleanContent.includes('https://twitter.com')) {
+    if (messageContent.includes('<https://twitter.com') && messageContent.includes('>')) {
+        console.log('Forcefully non-embedded message')
+        return;
+    }
+
+    console.log(`Message received: m${messageContent}`)
+    if (messageContent.includes('https://twitter.com')) {
         console.log('Has twitter link');
         if (!embedCheck(message)) {
             messageMap.set(message.id, setTimeout(() => processMessage(message), 5000));
