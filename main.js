@@ -58,13 +58,7 @@ client.on('messageCreate', async message => {
 
     if (message.author == client.user) {return}
 
-    /*forcefully non-embedded messages
-    if (messageContent.includes('<https://twitter.com') && messageContent.includes('>')) {
-        console.log('Forcefully non-embedded message');
-        return;
-    }*/
-
-    console.log(`Message received: m${messageContent}`)
+    console.log(`Message received: ${messageContent}`)
     if (twitReg.test()) {
         console.log('Has good twitter link');
         if (!embedCheck(message)) {
