@@ -4,16 +4,6 @@ const secrets = require('./secrets.json');
 
 let messageMap = new Map();
 
-/*
-    x check for twitter links
-    x note the message, start timer to reply with vx link
-    x if no update: vx 
-    x if updates with embed:
-    x embed=image: cancel timeout
-    x embed=video: cancel timeout and send message
-    add reaction to message that adds/removes c.vx
-
-*/
 
 async function processMessage(message) {
     console.log('processing message')
