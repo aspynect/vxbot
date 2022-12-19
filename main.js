@@ -12,7 +12,7 @@ async function processMessage(message) {
     console.log('processing message')
     messageMap.delete(message.id);
 
-    let twitLinks = twitReg.match(message.cleanContent)
+    let twitLinks = message.cleanContent.match(twitReg)
     let responseContent = ""
     for (var match in twitLinks) {
         if (match.charAt(0) == '.' || match.charAt(0) == '/') {
@@ -59,7 +59,7 @@ client.on('messageCreate', async message => {
     if (message.author == client.user) {return}
 
     console.log(`Message received: ${messageContent}`)
-    if (twitReg.test()) {
+    if (messageContent.test(twitReg)) {
         console.log('Has good twitter link');
         if (!embedCheck(message)) {
             messageMap.set(message.id, setTimeout(() => processMessage(message), 5000));
