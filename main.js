@@ -66,7 +66,7 @@ client.on('messageUpdate', async (oldMessage, newMessage) => {
     if (messageMap.has(messageID)) {
         console.log('Important message update');
         if (!embedCheck(newMessage)) {
-            clearTimeout(messageMap.messageID);
+            clearTimeout(messageMap[messageID]);
             processMessage(newMessage);
         } //if its good its good
     }
