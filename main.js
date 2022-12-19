@@ -3,7 +3,7 @@ const { Client, GatewayIntentBits, ReactionCollector } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessageReactions] });
 const secrets = require('./secrets.json');
 
-const twitReg = new RegExp('/twitter\.com\/[\w\d_]+\/status\/[0-9]*/gm');
+const twitReg = new RegExp('twitter\.com\/[\w\d_]+\/status\/[0-9]*');
 
 let messageMap = new Map();
 
@@ -14,7 +14,10 @@ async function processMessage(message) {
 
     let twitLinks = twitReg.match(message.cleanContent)
     let responseContent = ""
-    for (const match in twitLinks) {
+    for (var match in twitLinks) {
+        if (match.charAt(0) == '.' || match.charAt(0) == '/') {
+            match = match.slice(1)
+        }
         responseContent = concat(responseContent, twitLinks[match], "\n")
     }
 
@@ -54,10 +57,12 @@ client.on('messageCreate', async message => {
     let messageContent = message.cleanContent
 
     if (message.author == client.user) {return}
+
+    /*forcefully non-embedded messages
     if (messageContent.includes('<https://twitter.com') && messageContent.includes('>')) {
         console.log('Forcefully non-embedded message');
         return;
-    }
+    }*/
 
     console.log(`Message received: m${messageContent}`)
     if (twitReg.test()) {
