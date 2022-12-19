@@ -48,7 +48,7 @@ client.on('messageCreate', async message => {
 
     if (message.author == client.user) {return}
     if (messageContent.includes('<https://twitter.com') && messageContent.includes('>')) {
-        console.log('Forcefully non-embedded message')
+        console.log('Forcefully non-embedded message');
         return;
     }
 
