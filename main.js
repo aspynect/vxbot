@@ -59,7 +59,7 @@ client.on('messageCreate', async message => {
     if (message.author == client.user) {return}
 
     console.log(`Message received: ${messageContent}`)
-    if (messageContent.test(twitReg)) {
+    if (twitReg.test(messageContent)) {
         console.log('Has good twitter link');
         if (!embedCheck(message)) {
             messageMap.set(message.id, setTimeout(() => processMessage(message), 5000));
