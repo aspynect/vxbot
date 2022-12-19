@@ -18,7 +18,7 @@ async function processMessage(message) {
         if (match.charAt(0) == '.' || match.charAt(0) == '/') {
             match = match.slice(1)
         }
-        responseContent = concat(responseContent, twitLinks[match], "\n")
+        responseContent = ''.concat(responseContent, twitLinks[match], "\n")
     }
 
     let responseMessage = await message.reply(responseContent);
