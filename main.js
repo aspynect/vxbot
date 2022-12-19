@@ -26,6 +26,7 @@ async function messageReprocess(message) {
     }
     await message.edit(fixedContent);
     message.react('🔀');
+    console.log(messageMap)
 }
 
 //false: no embed, video embed
