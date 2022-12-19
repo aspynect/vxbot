@@ -3,7 +3,7 @@ const { Client, GatewayIntentBits, ReactionCollector } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessageReactions] });
 const secrets = require('./secrets.json');
 
-const twitReg = new RegExp('twitter\.com\/[\w\d_]+\/status\/[0-9]*');
+const twitReg = /twitter\.com\/[\w\d_]+\/status\/[0-9]+/gm;
 
 let messageMap = new Map();
 
