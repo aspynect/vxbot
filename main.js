@@ -1,25 +1,15 @@
-const { match } = require('assert');
 const { Client, GatewayIntentBits, ReactionCollector } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessageReactions] });
 const secrets = require('./secrets.json');
-
-const twitReg = /twitter\.com\/[\w\d_]+\/status\/[0-9]+/gm;
 
 let messageMap = new Map();
 
 
 async function processMessage(message) {
     console.log('processing message')
-    messageMap.delete(message.id);
 
-    let twitLinks = message.cleanContent.match(twitReg)
-    let responseContent = ""
-    for (var match in twitLinks) {
-        if (match.charAt(0) == '.' || match.charAt(0) == '/') {
-            match = match.slice(1)
-        }
-        responseContent = responseContent + "https://vx" + twitLinks[match] + "\n"
-    }
+    messageMap.delete(message.id);
+    let responseContent = message.cleanContent.replaceAll('twitter.com', 'vxtwitter.com');
 
     let responseMessage = await message.reply(responseContent);
     responseMessage.react('🔀');
@@ -57,10 +47,14 @@ client.on('messageCreate', async message => {
     let messageContent = message.cleanContent
 
     if (message.author == client.user) {return}
+    if (messageContent.includes('<https://twitter.com') && messageContent.includes('>')) {
+        console.log('Forcefully non-embedded message');
+        return;
+    }
 
-    console.log(`Message received: ${messageContent}`)
-    if (twitReg.test(messageContent)) {
-        console.log('Has good twitter link');
+    console.log(`Message received: m${messageContent}`)
+    if (messageContent.includes('https://twitter.com')) {
+        console.log('Has twitter link');
         if (!embedCheck(message)) {
             messageMap.set(message.id, setTimeout(() => processMessage(message), 5000));
         } //exit if embeds work
